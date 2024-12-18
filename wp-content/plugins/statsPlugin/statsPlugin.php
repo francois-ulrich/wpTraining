@@ -8,27 +8,36 @@
   Author URI: https://github.com/francois-ulrich
 */
 
+
 class StatsPlugin{
   private $pluginName;
   private $pageName;
-  private $displayLocationSectionName;
+  private $sectionName;
   private $displayLocationFieldName;
+  private $headlineTextFieldName;
 
   function __construct()
   {
     $this->pluginName = "statsplugin";
     $this->pageName = "stats-settings-page";
-    $this->displayLocationSectionName = "sp_displaylocation_section";
+    $this->sectionName = "sp_section";
     $this->displayLocationFieldName = "sp_displaylocation";
+    $this->headlineTextFieldName = "sp_headlinetext";
 
     add_action("admin_menu", array($this, "addStatsPluginSettingsLink"));
     add_action("admin_init", array($this, "addSettings"));
   }
 
   function addSettings(){
-    add_settings_section($this->displayLocationSectionName, null, null, $this->pageName);
-    add_settings_field($this->displayLocationFieldName, "Display location", array($this, "getDisplayLocationHtml"), $this->pageName, $this->displayLocationSectionName);
+    add_settings_section($this->sectionName, null, null, $this->pageName);
+
+    // Display location
+    add_settings_field($this->displayLocationFieldName, "Display location", array($this, "getDisplayLocationFieldHtml"), $this->pageName, $this->sectionName);
     register_setting($this->pluginName, $this->displayLocationFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => "start"));
+
+    // Headline text
+    add_settings_field($this->headlineTextFieldName, "Headline text", array($this, "getHeadlineTextFieldHtml"), $this->pageName, $this->sectionName);
+    register_setting($this->pluginName, $this->headlineTextFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
   }
 
   function addStatsPluginSettingsLink(){
@@ -45,11 +54,15 @@ class StatsPlugin{
     </form>
   <?php }
 
-  function getDisplayLocationHtml(){ ?>
+  function getDisplayLocationFieldHtml(){ ?>
     <select name="<?php echo $this->displayLocationFieldName; ?>">
-      <option value="start">Start of post</option>
-      <option value="end">End of post</option>
+      <option value="start" <?php selected(get_option($this->displayLocationFieldName), "start"); ?> >Start of post</option>
+      <option value="end" <?php selected(get_option($this->displayLocationFieldName), "end"); ?>>End of post</option>
     </select>
+  <?php }
+
+  function getHeadlineTextFieldHtml(){ ?>
+    <input type="text" name="<?php echo $this->headlineTextFieldName; ?>" value="<?php echo esc_attr(get_option($this->headlineTextFieldName)); ?>"  />
   <?php }
 }
 

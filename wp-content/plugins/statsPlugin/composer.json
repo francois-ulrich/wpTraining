@@ -1,0 +1,11 @@
+{
+    "name": "fulri/statsplugin",
+    "autoload": {
+        "psr-4": {
+            "Fulri\\Statsplugin\\": "src/"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.17"
+    }
+}

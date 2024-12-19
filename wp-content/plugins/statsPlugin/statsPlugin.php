@@ -8,9 +8,6 @@
   Author URI: https://github.com/francois-ulrich
 */
 
-define( 'STATSPLUGIN__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-
-if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-	require_once STATSPLUGIN__PLUGIN_DIR . 'class.statsplugin-admin.php';
-  new StatsPluginAdmin();
-}
+defined('ABSPATH') or die('Direct access not allowed.');
+define( 'STATSPLUGIN_ROOT_DIR', plugin_dir_path( __FILE__ ) );
+include_once plugin_dir_path(__FILE__) . 'includes/functions.php';

@@ -34,32 +34,32 @@ class StatsPlugin{
     add_action("admin_init", array($this, "addSettings"));
   }
 
+  function addStatsPluginSettingsLink(){
+    add_options_page("Stats Plugin", "Stats Plugin", "manage_options", $this->pageName, array($this, "showPageHtml"));
+  }
+
   function addSettings(){
     add_settings_section($this->sectionName, null, null, $this->pageName);
 
     // Display location
     add_settings_field($this->displayLocationFieldName, "Display location", array($this, "showDisplayLocationFieldHtml"), $this->pageName, $this->sectionName);
-    register_setting($this->pluginName, $this->displayLocationFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => "start"));
+    register_setting($this->pluginName, $this->displayLocationFieldName, array("sanitize_callback" => array($this, "sanitizeDisplayLocation"), "default" => "start"));
 
     // Headline text
     add_settings_field($this->headlineTextFieldName, "Headline text", array($this, "showHeadlineTextFieldHtml"), $this->pageName, $this->sectionName);
     register_setting($this->pluginName, $this->headlineTextFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
 
     // Word count
-    add_settings_field($this->wordCountFieldName, "Word count", array($this, "showWordCountField"), $this->pageName, $this->sectionName);
-    register_setting($this->pluginName, $this->wordCountFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
+    add_settings_field($this->wordCountFieldName, "Word count", array($this, "showCheckBoxField"), $this->pageName, $this->sectionName, array("fieldName" => $this->wordCountFieldName));
+    register_setting($this->pluginName, $this->wordCountFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => "1"));
 
     // Character count
-    add_settings_field($this->characterCountFieldName, "Character count", array($this, "showCharacterCountField"), $this->pageName, $this->sectionName);
-    register_setting($this->pluginName, $this->characterCountFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
+    add_settings_field($this->characterCountFieldName, "Character count", array($this, "showCheckBoxField"), $this->pageName, $this->sectionName, array("fieldName" => $this->characterCountFieldName));
+    register_setting($this->pluginName, $this->characterCountFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => "1"));
 
     // Read time 
-    add_settings_field($this->readTimeFieldName, "Read time", array($this, "showReadTimeField"), $this->pageName, $this->sectionName);
-    register_setting($this->pluginName, $this->readTimeFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
-  }
-
-  function addStatsPluginSettingsLink(){
-    add_options_page("Stats Plugin", "Stats Plugin", "manage_options", $this->pageName, array($this, "showPageHtml"));
+    add_settings_field($this->readTimeFieldName, "Read time", array($this, "showCheckBoxField"), $this->pageName, $this->sectionName, array("fieldName" => $this->readTimeFieldName));
+    register_setting($this->pluginName, $this->readTimeFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => "1"));
   }
 
   function showPageHtml(){ ?>
@@ -83,20 +83,16 @@ class StatsPlugin{
     <input type="text" name="<?php echo $this->headlineTextFieldName; ?>" value="<?php echo esc_attr(get_option($this->headlineTextFieldName)); ?>"  />
   <?php }
 
-  function showCheckBoxField($name){ ?>
-    <input type="checkbox" name="<?php echo $name; ?>" <?php echo checked(get_option($name)); ?> value="1"/>
+  function showCheckBoxField($args){ ?>
+    <input type="checkbox" name="<?php echo $args["fieldName"]; ?>" <?php echo checked(get_option($args["fieldName"])); ?> value="1"/>
   <?php }
 
-  function showWordCountField(){
-    $this->showCheckBoxField($this->wordCountFieldName);
-  }
+  function sanitizeDisplayLocation($input){
+    if($input == "start" || $input == "end")
+      return $input;
 
-  function showCharacterCountField(){
-    $this->showCheckBoxField($this->characterCountFieldName);
-  }
-
-  function showReadTimeField(){
-    $this->showCheckBoxField($this->readTimeFieldName);
+    add_settings_error($this->displayLocationFieldName, $this->displayLocationFieldName."_error", "Display location must be either \"start\" or \"end\"");
+    return get_option($this->displayLocationFieldName);
   }
 }
 

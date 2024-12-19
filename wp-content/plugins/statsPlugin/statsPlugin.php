@@ -15,6 +15,9 @@ class StatsPlugin{
   private $sectionName;
   private $displayLocationFieldName;
   private $headlineTextFieldName;
+  private $wordCountFieldName;
+  private $characterCountFieldName;
+  private $readTimeFieldName;
 
   function __construct()
   {
@@ -23,6 +26,9 @@ class StatsPlugin{
     $this->sectionName = "sp_section";
     $this->displayLocationFieldName = "sp_displaylocation";
     $this->headlineTextFieldName = "sp_headlinetext";
+    $this->wordCountFieldName = "sp_wordcount";
+    $this->characterCountFieldName = "sp_charactercount";
+    $this->readTimeFieldName = "sp_readtime";
 
     add_action("admin_menu", array($this, "addStatsPluginSettingsLink"));
     add_action("admin_init", array($this, "addSettings"));
@@ -32,19 +38,31 @@ class StatsPlugin{
     add_settings_section($this->sectionName, null, null, $this->pageName);
 
     // Display location
-    add_settings_field($this->displayLocationFieldName, "Display location", array($this, "getDisplayLocationFieldHtml"), $this->pageName, $this->sectionName);
+    add_settings_field($this->displayLocationFieldName, "Display location", array($this, "showDisplayLocationFieldHtml"), $this->pageName, $this->sectionName);
     register_setting($this->pluginName, $this->displayLocationFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => "start"));
 
     // Headline text
-    add_settings_field($this->headlineTextFieldName, "Headline text", array($this, "getHeadlineTextFieldHtml"), $this->pageName, $this->sectionName);
+    add_settings_field($this->headlineTextFieldName, "Headline text", array($this, "showHeadlineTextFieldHtml"), $this->pageName, $this->sectionName);
     register_setting($this->pluginName, $this->headlineTextFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
+
+    // Word count
+    add_settings_field($this->wordCountFieldName, "Word count", array($this, "showWordCountField"), $this->pageName, $this->sectionName);
+    register_setting($this->pluginName, $this->wordCountFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
+
+    // Character count
+    add_settings_field($this->characterCountFieldName, "Character count", array($this, "showCharacterCountField"), $this->pageName, $this->sectionName);
+    register_setting($this->pluginName, $this->characterCountFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
+
+    // Read time 
+    add_settings_field($this->readTimeFieldName, "Read time", array($this, "showReadTimeField"), $this->pageName, $this->sectionName);
+    register_setting($this->pluginName, $this->readTimeFieldName, array("sanitize_callback" => "sanitize_text_field", "default" => ""));
   }
 
   function addStatsPluginSettingsLink(){
-    add_options_page("Stats Plugin", "Stats Plugin", "manage_options", $this->pageName, array($this, "getPageHtml"));
+    add_options_page("Stats Plugin", "Stats Plugin", "manage_options", $this->pageName, array($this, "showPageHtml"));
   }
 
-  function getPageHtml(){ ?>
+  function showPageHtml(){ ?>
     <h1>Stats Settings</h1>
 
     <form action="options.php" method="POST">
@@ -54,16 +72,32 @@ class StatsPlugin{
     </form>
   <?php }
 
-  function getDisplayLocationFieldHtml(){ ?>
+  function showDisplayLocationFieldHtml(){ ?>
     <select name="<?php echo $this->displayLocationFieldName; ?>">
       <option value="start" <?php selected(get_option($this->displayLocationFieldName), "start"); ?> >Start of post</option>
       <option value="end" <?php selected(get_option($this->displayLocationFieldName), "end"); ?>>End of post</option>
     </select>
   <?php }
 
-  function getHeadlineTextFieldHtml(){ ?>
+  function showHeadlineTextFieldHtml(){ ?>
     <input type="text" name="<?php echo $this->headlineTextFieldName; ?>" value="<?php echo esc_attr(get_option($this->headlineTextFieldName)); ?>"  />
   <?php }
+
+  function showCheckBoxField($name){ ?>
+    <input type="checkbox" name="<?php echo $name; ?>" <?php echo checked(get_option($name)); ?> value="1"/>
+  <?php }
+
+  function showWordCountField(){
+    $this->showCheckBoxField($this->wordCountFieldName);
+  }
+
+  function showCharacterCountField(){
+    $this->showCheckBoxField($this->characterCountFieldName);
+  }
+
+  function showReadTimeField(){
+    $this->showCheckBoxField($this->readTimeFieldName);
+  }
 }
 
 new StatsPlugin();

@@ -26,7 +26,8 @@ class StatsPluginAdmin{
   }
 
   function addStatsPluginSettingsLink(){
-    add_options_page("Stats Plugin", "Stats Plugin", "manage_options", $this->pageName, array($this, "showPageHtml"));
+    // add_options_page("Stats Plugin", "Stats Plugin", "manage_options", $this->pageName, array($this, "showPageHtml"));
+    add_options_page("Stats Plugin", __("Stats Plugin", "spdomain"), "manage_options", $this->pageName, array($this, "showPageHtml"));
   }
 
   function addSettings(){

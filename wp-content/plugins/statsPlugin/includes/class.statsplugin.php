@@ -7,6 +7,11 @@ class StatsPlugin{
   function __construct()
   {
     add_filter("the_content", array($this, "checkIfEnabled"));
+    add_action("init", array($this, "initLanguages"));
+  }
+
+  function initLanguages(){
+    load_plugin_textdomain("spdomain", false, STATSPLUGIN_BASENAME . "/languages");
   }
 
   function checkIfEnabled($content){
@@ -26,7 +31,6 @@ class StatsPlugin{
       "readTime" => boolval(get_option("sp_readtime", "0") == "1"),
     ];
 
-
     $rawText = strip_tags($content);
 
     $wordCount = str_word_count($rawText);
@@ -34,11 +38,14 @@ class StatsPlugin{
     $readTimeInMinutes = round($wordCount/255);
 
     $data = [
-        'headlineText' => get_option("sp_headlinetext", "Page stats"),
-        "display" => $display,
-        'wordCount' => $wordCount,
-        'characterCount' => $characterCount,
-        'readTimeInMinutes' => $readTimeInMinutes,
+      'headlineText' => esc_html(get_option("sp_headlinetext", "Page stats")),
+      "display" => $display,
+      'wordCountLabel' => esc_html__("Word count", "spdomain"),
+      'wordCount' => $wordCount,
+      'characterCountLabel' => esc_html__("Character count", "spdomain"),
+      'characterCount' => $characterCount,
+      'readTimeInMinutesLabel' => esc_html__("Reading time (in minutes)", "spdomain"),
+      'readTimeInMinutes' => $readTimeInMinutes,
     ];
 
     $renderedTemplate = $twig->render('stats-block.html.twig', $data);

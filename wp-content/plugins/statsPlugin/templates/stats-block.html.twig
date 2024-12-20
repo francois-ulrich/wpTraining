@@ -2,15 +2,15 @@
   <h1>{{headlineText}}</h1>
 
   {% if display.wordCount %}
-    <p>Word count : {{wordCount}}</p>
+    <p>{{wordCountLabel}} : {{wordCount}}</p>
   {% endif %}
 
   {% if display.characterCount %}
-    <p>Character count : {{characterCount}}</p>
+    <p>{{characterCountLabel}} : {{characterCount}}</p>
   {% endif %}
 
   {% if display.readTime %}
-    <p>Reading time (in minutes) : {{readTimeInMinutes}}</p>
+    <p>{{readTimeInMinutesLabel}} : {{readTimeInMinutes}}</p>
   {% endif %}
 
   {{rawText}}

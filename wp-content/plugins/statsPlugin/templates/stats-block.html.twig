@@ -1,1 +1,17 @@
-<h1>{{title}}</h1>
+<div style="background-color:#eee;padding:8px;">
+  <h1>{{headlineText}}</h1>
+
+  {% if display.wordCount %}
+    <p>Word count : {{wordCount}}</p>
+  {% endif %}
+
+  {% if display.characterCount %}
+    <p>Character count : {{characterCount}}</p>
+  {% endif %}
+
+  {% if display.readTime %}
+    <p>Reading time (in minutes) : {{readTimeInMinutes}}</p>
+  {% endif %}
+
+  {{rawText}}
+</div>

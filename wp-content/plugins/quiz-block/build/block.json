@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "quiz-block/quiz-block",
+  "version": "0.1.0",
+  "title": "Quiz Block",
+  "category": "widgets",
+  "icon": "smiley",
+  "description": "A quiz custom block",
+  "example": {},
+  "supports": {
+    "interactivity": true
+  },
+  "textdomain": "quiz-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js",
+  "attributes": {
+    "skyColor": {
+      "type": "string"
+    },
+    "grassColor": {
+      "type": "string"
+    }
+  }
+}

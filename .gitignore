@@ -46,8 +46,9 @@ wp-config.php
 #
 # Note: If you wish to whitelist themes,
 # uncomment the next line
-/wp-content/themes/twentytwentyfour
-/wp-content/themes/twentytwentythree
+# /wp-content/themes/twentytwentyfour
+# /wp-content/themes/twentytwentythree
+# /wp-content/themes/*
 
 # Ignore Composer packages.
 **/vendor/

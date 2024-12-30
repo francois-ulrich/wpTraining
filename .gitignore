@@ -24,9 +24,9 @@ wp-config.php
 !/wp-content/themes/fictional-university-theme
 
 # Example plugin
-/wp-content/plugins/*
-/wp-content/plugins/quiz-block
-/wp-content/plugins/statsplugin
+/wp-content/plugins
+!/wp-content/plugins/quiz-block
+!/wp-content/plugins/statsplugin
 
 # Uploads
 /wp-content/uploads/

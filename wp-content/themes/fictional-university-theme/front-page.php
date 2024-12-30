@@ -20,15 +20,25 @@
         <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
 
         <?php 
+          $today = date("Ymd");
+
           $eventsPosts = new WP_Query(array(
-            'posts_per_page' => 2,
+            'posts_per_page' => 3,
             "post_type" => "event",
+            "meta_key" => "event_date",
+            "orderby" => "meta_value_num",
+            // "order" =>"ASC",
+            "meta_query" => array(
+              array(
+                "key" => "event_date",
+                "compare" => ">=",
+                "value" => $today,
+              )
+            )
           ));
 
           while ($eventsPosts->have_posts()) {
             $eventsPosts->the_post();
-
-            // echo get_field("event_date");
 
             $eventDateValue = new DateTime(get_field("event_date"));
 
@@ -73,7 +83,7 @@
           </div>
         </div>
          -->
-        <p class="t-center no-margin"><a href="#" class="btn btn--blue">View All Events</a></p>
+        <p class="t-center no-margin"><a href="/events" class="btn btn--blue">View All Events</a></p>
 
       </div>
     </div>

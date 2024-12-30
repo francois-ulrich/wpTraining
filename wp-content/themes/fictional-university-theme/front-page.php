@@ -1,4 +1,8 @@
-<?php get_header(); ?>
+<?php get_header(); 
+  $eventDate = new DateTime();
+
+  
+?>
 
   <div class="page-banner">
   <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/library-hero.jpg') ?>);"></div>
@@ -23,12 +27,19 @@
 
           while ($eventsPosts->have_posts()) {
             $eventsPosts->the_post();
+
+            // echo get_field("event_date");
+
+            $eventDateValue = new DateTime(get_field("event_date"));
+
+            $eventDay = $eventDateValue->format("d");
+            $eventDayMonth = $eventDateValue->format("M");
         ?>
 
           <div class="event-summary">
             <a class="event-summary__date t-center" href="#">
-              <span class="event-summary__month">Apr</span>
-              <span class="event-summary__day">02</span>  
+              <span class="event-summary__month"><?php echo $eventDayMonth ?></span>
+              <span class="event-summary__day"><?php echo $eventDay; ?></span>  
             </a>
             <div class="event-summary__content">
                 <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>

@@ -20,12 +20,13 @@
 # Configuration
 wp-config.php
 
-# Example themes
-# /wp-content/themes/twenty*/
+/wp-content/themes/*
+!/wp-content/themes/fictional-university-theme
 
 # Example plugin
-/wp-content/plugins/hello.php
-/wp-content/plugins/loco-translate
+/wp-content/plugins/*
+/wp-content/plugins/quiz-block
+/wp-content/plugins/statsplugin
 
 # Uploads
 /wp-content/uploads/
@@ -35,20 +36,6 @@ wp-config.php
 
 # htaccess
 /.htaccess
-
-# All plugins
-#
-# Note: If you wish to whitelist plugins,
-# uncomment the next line
-#/wp-content/plugins
-
-# All themes
-#
-# Note: If you wish to whitelist themes,
-# uncomment the next line
-# /wp-content/themes/twentytwentyfour
-# /wp-content/themes/twentytwentythree
-# /wp-content/themes/*
 
 # Ignore Composer packages.
 **/vendor/

@@ -8,6 +8,7 @@ add_action("init", "university_post_types");
 function university_post_types() {
 	register_post_type("event", array(
 		"public" => true,
+		"supports" => array('title', 'editor', 'comments', 'custom-fields'),
 		'show_in_rest' => true,
 		"labels" => array(
 			"name"=>"Events",
@@ -16,6 +17,6 @@ function university_post_types() {
 			"all_items"=>"All events",
 		),
 		"menu_icon" => "dashicons-calendar-alt",
-		"supports" => array('title', 'editor', 'comments', 'custom-fields')
+
 	));
 }

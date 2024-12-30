@@ -1,4 +1,6 @@
 <?php
+// Pull in Composer’s autoload
+require_once( __DIR__ . '/vendor/autoload.php' );
 
 function university_files() {
   wp_enqueue_script('main-university-js', get_theme_file_uri('/build/index.js'), array('jquery'), '1.0', true);

@@ -1,0 +1,79 @@
+{% extends "/templates/base.twig" %}
+
+{% block banner %}
+	{% include "/components/banners/main-page.twig" %}
+{% endblock %}
+
+{% block content %}
+	<div class="full-width-split group">
+		<div class="full-width-split__one">
+			<div class="full-width-split__inner">
+				<h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
+
+				{% for post in events %}
+					{% include "/posts/event.twig" %}
+				{% endfor %}
+
+				<p class="t-center no-margin">
+					<a href="{{ fn('get_post_type_archive_link', 'event') }}" class="btn btn--blue">View All Events</a>
+				</p>
+
+			</div>
+		</div>
+		<div class="full-width-split__two">
+			<div class="full-width-split__inner">
+				<h2 class="headline headline--small-plus t-center">From Our Blogs</h2>
+
+				{% for post in posts %}
+					{% include "/posts/blog-post-front.twig" %}
+				{% endfor %}
+
+				<p class="t-center no-margin">
+					<a href="{{ fn("site_url", "/blog") }}" class="btn btn--yellow">View All Blog Posts</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="hero-slider">
+		<div data-glide-el="track" class="glide__track">
+			<div class="glide__slides">
+				<div class="hero-slider__slide" style="background-image: url({{ fn('get_theme_file_uri', '/images/bus.jpg') }});">
+
+					<div class="hero-slider__interior container">
+						<div class="hero-slider__overlay">
+							<h2 class="headline headline--medium t-center">Free Transportation</h2>
+							<p class="t-center">All students have free unlimited bus fare.</p>
+							<p class="t-center no-margin">
+								<a href="#" class="btn btn--blue">Learn more</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="hero-slider__slide" style="background-image: url({{ fn('get_theme_file_uri', '/images/apples.jpg') }});">
+					<div class="hero-slider__interior container">
+						<div class="hero-slider__overlay">
+							<h2 class="headline headline--medium t-center">An Apple a Day</h2>
+							<p class="t-center">Our dentistry program recommends eating apples.</p>
+							<p class="t-center no-margin">
+								<a href="#" class="btn btn--blue">Learn more</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="hero-slider__slide" style="background-image: url({{ fn('get_theme_file_uri', '/images/bread.jpg') }});">
+					<div class="hero-slider__interior container">
+						<div class="hero-slider__overlay">
+							<h2 class="headline headline--medium t-center">Free Food</h2>
+							<p class="t-center">Fictional University offers lunch plans for those in need.</p>
+							<p class="t-center no-margin">
+								<a href="#" class="btn btn--blue">Learn more</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="slider__bullets glide__bullets" data-glide-el="controls[nav]"></div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+    "name": "fulri/fictional-university-theme",
+    "require": {
+        "timber/timber": "^2.3"
+    },
+    "authors": [
+        {
+            "name": "Francois Ulrich"
+        }
+    ]
+}
